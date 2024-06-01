@@ -2,12 +2,21 @@
 Requierd OpenAI API key to work
 
 ### Setup
-cerate python venv and install requirements
 ```
+git clone https://github.com/M1chol/atom-assistant
+cd atom-assistant
 python -m venv .venv
-.\.venv\Scripts\activate
 ```
-on linux and mac do `source .venv/bin/activate` instead
+then on Windows
+```
+.\.venv\Scripts\activate
+pip install -r .\requirements.txt
+```
+on linux and mac do this instead
+```
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
 create `openaikey.py` file and add line like this  
 ```
