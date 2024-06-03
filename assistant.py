@@ -1,7 +1,18 @@
 from openai import OpenAI
-from openaikey import apiKey
 from datetime import datetime
-client = OpenAI(api_key=apiKey)
+from music import SpotifyWrapper
+from ast import literal_eval
+
+# import secrets
+try:
+    from mysecrets import openaiKey
+except ModuleNotFoundError:
+    from setup import setup
+    setup()
+    from mysecrets import openaiKey
+
+client = OpenAI(api_key=openaiKey)
+player = SpotifyWrapper()
 
 thread = client.beta.threads.create()
 
@@ -29,9 +40,10 @@ while True:
         for tool in run.required_action.submit_tool_outputs.tool_calls:
             if tool.function.name == "music-on":
                 print("system: music-on wywołane dla", tool.function.arguments)
+                status = player.playSong(literal_eval(tool.function.arguments)["search"])
                 tool_outputs.append({
                 "tool_call_id": tool.id,
-                "output": "ok"
+                "output": status
                 })
             elif tool.function.name == "music-off":
                 print("system: music-off wywołane")
