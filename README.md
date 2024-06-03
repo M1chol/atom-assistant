@@ -12,15 +12,22 @@ then on Windows
 .\.venv\Scripts\activate
 pip install -r .\requirements.txt
 ```
-on linux and mac do this instead
+or on linux and mac do this instead
 ```
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-create `openaikey.py` file and add line like this  
-```
-apiKey = "YOUR-API-KEY"
-```
+you will need following following things:
+1. OpenAI [api key](https://platform.openai.com/api-keys)
+2. Spotify [developer app](https://developer.spotify.com/dashboard)
+   
+from there you will need:
+1. username
+2. clientID 
+3. clientSecret
+4. redirect_url
+   
+you can follow first steps of [this guide](https://developer.spotify.com/documentation/web-api/tutorials/getting-started) to create app and find those variables
 
 launch `assistant.py`
