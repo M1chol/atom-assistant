@@ -4,7 +4,7 @@ import mysecrets as sc
 from spotipy.oauth2 import SpotifyClientCredentials
 
 class SpotifyWrapper:
-
+##
     def __init__(self) -> None:
         self.sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=sc.spotify_clientID, client_secret=sc.spotify_clientSecret,))
          
