@@ -18,10 +18,17 @@ source .venv/bin/activate
 echo "Installing requirements..."
 pip install -r requirements.txt
 
-echo "Downloading Piper voice..."
 model=$(cat config.json | jq -r '.tts_model')
 dir=$(cat config.json | jq -r '.tts_model_dir')
-mkdir 
-python3 -m piper.download_voices $model --download-dir $dir
 
-echo "Installation complete!"
+if [ ! -d $dir ]; then
+    echo "Creating models dir..."
+    mkdir $dir
+fi
+echo "Downloading Piper voice..."
+
+if python3 -m piper.download_voices "$model" --download-dir "./$dir"; then
+    echo "Installation complete!"
+else
+    echo "Fail, download failed"
+fi

@@ -1,5 +1,5 @@
 {
-    "tts_model": "pl_PL-darkman-medium.onnx",
+    "tts_model": "pl_PL-darkman-medium",
     "tts_model_dir": "models",
     "ollama_model_name": "gemma3:4b",
     "ollama_system_prompt": "Jesteś asystentem \"Atom\", odpowiadasz krótko i zwięźle w języku polskim",

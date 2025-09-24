@@ -9,7 +9,7 @@ class ttsWrapper:
     def __init__(self) -> None:
         with open("config.json") as f:
             self.__config = json.load(f)
-        self.__model_path = self.__config['tts_model_dir'] + '/' + self.__config['tts_model']
+        self.__model_path = self.__config['tts_model_dir'] + '/' + self.__config['tts_model'] + ".onnx"
         self.__voice = PiperVoice.load(self.__model_path)
         self.__syn_config = SynthesisConfig(
             length_scale=self.__config['tts_config']['length_scale'],
@@ -46,11 +46,6 @@ class ttsWrapper:
             outdata[:] = chunk[:frames]
 
     def speak(self, text: str) -> None:
-        self.__stream.start()
         for audio_chunk in self.__voice.synthesize(text, syn_config=self.__syn_config):
             audio_bytes = audio_chunk.audio_int16_array
-            self.__stream.write(audio_bytes)
-        self.__stream.stop()
-    
-    def speak_streamed(self, text_fragment: str) -> None:
-        self.__queue.put(text_fragment)
+            self.__queue.put(audio_bytes)

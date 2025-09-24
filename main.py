@@ -30,11 +30,11 @@ try:
         streamed_response = []
         print("atom: ", end='')
         for part in chat(model, messages=messages, stream=True):
-            streamed_response.append(part['message']['content'])
-            print(part['message']['content'], end='', flush=True)
+            response_part = part['message']['content']
+            tts.speak(response_part)
+            streamed_response.append(response_part)
+            print(response_part, end='', flush=True)
         print("")
-        response = ''.join(streamed_response)
-        tts.speak(response)
-        messages.append({'role': 'assistant', 'content': response})
+        messages.append({'role': 'assistant', 'content': ''.join(streamed_response)})
 except KeyboardInterrupt:
     pass
