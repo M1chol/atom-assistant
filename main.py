@@ -1,7 +1,6 @@
 from tts import ttsWrapper
 from ollama import chat, list
 import json
-import threading
 
 try:
     list()

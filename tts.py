@@ -88,7 +88,7 @@ class ttsWrapper:
         sentence = ""
         while not self.__audio_thread_stop_event.is_set():
             token = self.__text_queue.get()
-            if token is None or token in ['.', '!', '?', ','] or len(sentence.split())>3:
+            if token is None or token in ['.', '!', '?', ','] or len(sentence.split()) > 5:
                 if token: 
                     sentence += token
                 if sentence:
