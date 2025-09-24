@@ -1,7 +1,7 @@
 from tts import ttsWrapper
 from stt import sttWrapper
 import sys
-from ollama import chat, list
+from ollama import chat, list, show
 import json
 from time import sleep
 
@@ -43,6 +43,11 @@ messages = [
 ]
 
 model = config['ollama_model_name']
+try:
+    show(model)
+except:
+    print("It looks like the ollama model you specified is not available")
+    quit()
 
 try:
     print(f"Starting speach to speach chat with {model}, Ctrl+C to exit")
