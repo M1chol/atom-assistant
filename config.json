@@ -2,11 +2,13 @@
     "tts_model": "pl_PL-darkman-medium",
     "tts_model_dir": "models",
     "ollama_model_name": "gemma3:4b",
-    "ollama_system_prompt": "Jesteś asystentem \"Atom\", odpowiadasz krótko i zwięźle w języku polskim",
+    "ollama_system_prompt": "Jesteś asystentem \"Atom\", twoja odpowiedź jest czytana na głos. Odpowiadasz krótko i zwięźle w języku polskim. Odpowiadaj zwykłym tekstem",
     "tts_config": {
-        "length_scale":0.8,
-        "noise_scale": 0.2,
+        "length_scale": 1.3,
+        "noise_scale": 0.8,
         "noise_w_scale": 0.8,
-        "volume": 0.5
+        "volume": 0.5,
+        "blocksize": 2048,
+        "buffersize": 20
     }
 }

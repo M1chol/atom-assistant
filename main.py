@@ -1,6 +1,7 @@
 from tts import ttsWrapper
 from ollama import chat, list
 import json
+import threading
 
 try:
     list()
@@ -35,6 +36,8 @@ try:
             streamed_response.append(response_part)
             print(response_part, end='', flush=True)
         print("")
+        tts.speak(None)
         messages.append({'role': 'assistant', 'content': ''.join(streamed_response)})
+
 except KeyboardInterrupt:
     pass
