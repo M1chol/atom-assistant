@@ -9,7 +9,7 @@ class ttsWrapper:
     def __init__(self) -> None:
         with open("config.json") as f:
             self.__config = json.load(f)
-        self.__model_path = self.__config['tts_model_path']
+        self.__model_path = self.__config['tts_model_dir'] + '/' + self.__config['tts_model']
         self.__voice = PiperVoice.load(self.__model_path)
         self.__syn_config = SynthesisConfig(
             length_scale=self.__config['tts_config']['length_scale'],
