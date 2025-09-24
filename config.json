@@ -1,9 +1,13 @@
 {
     "tts_model": "pl_PL-gosia-medium",
     "tts_model_dir": "models",
-    "ollama_model_name": "SpeakLeash/bielik-4.5b-v3.0-instruct:Q8_0",
+    "ollama_model_name": "gemma3:4b",
     "ollama_system_prompt": "Jesteś asystentem \"Atom\". Odpowiadasz krótko i zwięźle w języku polskim. Odpowiadaj tekstem odpowiednim do przeczytania, nie używaj emotikon",
-    "microphone_samplerate": 48000,
+    "stt_config":{
+        "microphone_samplerate": 48000,
+        "model": "pl",
+        "blocksize": 8000
+    },
     "tts_config": {
         "length_scale": 1.2,
         "noise_scale": 0.8,

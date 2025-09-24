@@ -12,6 +12,8 @@ class ttsWrapper:
     def __init__(self) -> None:
         with open("config.json") as f:
             self.__config = json.load(f)
+        if not self.__config:
+            raise FileNotFoundError("config file not found")
         self.__model_path = self.__config['tts_model_dir'] + '/' + self.__config['tts_model'] + ".onnx"
         self.__voice = PiperVoice.load(self.__model_path)
         self.__syn_config = SynthesisConfig(
@@ -85,6 +87,7 @@ class ttsWrapper:
             self.__audio_queue.put(audio_bytes)
     
     def __worker(self):
+        print("[TTS] Worker started")
         sentence = ""
         while not self.__audio_thread_stop_event.is_set():
             token = self.__text_queue.get()
