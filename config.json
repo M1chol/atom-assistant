@@ -1,0 +1,11 @@
+{
+    "tts_model_path": "models/pl_PL-darkman-medium.onnx",
+    "ollama_model_name": "gemma3:4b",
+    "ollama_system_prompt": "Jesteś asystentem \"Atom\", odpowiadasz krótko i zwięźle w języku polskim",
+    "tts_config": {
+        "length_scale":0.8,
+        "noise_scale": 0.2,
+        "noise_w_scale": 0.8,
+        "volume": 0.5
+    }
+}
