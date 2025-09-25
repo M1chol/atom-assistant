@@ -56,4 +56,4 @@ In `config.json`, you can change the reading speed. If your LLM is not fast enou
 `noise_scale` and `noise_w_scale` control respectivly **audio** and **speaking** variation. You can also change the `volume` of the output speech.
 
 ## Singular use examples
-I have also included example files for educational puposes for the used `ollama`, `piper` and `vosk` libraries. They all in some way expand on simple examples provided by the library contributors.
+I have also included [example files](https://github.com/M1chol/atom-assistant/tree/main/examples) for educational puposes for the used `ollama`, `piper` and `vosk` libraries. They all in some way expand on simple examples provided by the library contributors.
