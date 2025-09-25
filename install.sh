@@ -18,8 +18,8 @@ source .venv/bin/activate
 echo "Installing requirements..."
 pip install -r requirements.txt
 
-model=$(cat config.json | jq -r '.tts_model')
-dir=$(cat config.json | jq -r '.tts_model_dir')
+model=$(cat config.json | jq -r '.tts_config.model')
+dir=$(cat config.json | jq -r '.tts_config.model_dir')
 
 if [ ! -d $dir ]; then
     echo "Creating models dir..."

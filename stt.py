@@ -9,13 +9,13 @@ class sttWrapper:
 
     def __init__(self, callback) -> None:
         with open("config.json") as f:
-            self.__config = json.load(f)
+            self.__config = json.load(f)['stt_config']
         if not self.__config:
             raise FileNotFoundError("config file not found")
-        self.__model = Model(lang=self.__config['stt_config']['model'])
-        self.__samplerate = self.__config['stt_config']['microphone_samplerate']
+        self.__model = Model(lang=self.__config['model'])
+        self.__samplerate = self.__config['microphone_samplerate']
         self.__stream = sd.RawInputStream(samplerate=self.__samplerate, 
-                                        blocksize = self.__config['stt_config']['blocksize'], 
+                                        blocksize = self.__config['blocksize'], 
                                         device=sd.default.device,
                                             dtype="int16", channels=1, callback=self.__callback)
         self.__queue = queue.Queue()

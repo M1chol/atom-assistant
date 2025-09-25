@@ -11,26 +11,26 @@ from time import sleep
 class ttsWrapper:
     def __init__(self) -> None:
         with open("config.json") as f:
-            self.__config = json.load(f)
+            self.__config = json.load(f)['tts_config']
         if not self.__config:
             raise FileNotFoundError("config file not found")
-        self.__model_path = self.__config['tts_model_dir'] + '/' + self.__config['tts_model'] + ".onnx"
+        self.__model_path = self.__config['model_dir'] + '/' + self.__config['model'] + ".onnx"
         self.__voice = PiperVoice.load(self.__model_path)
         self.__syn_config = SynthesisConfig(
-            length_scale=self.__config['tts_config']['length_scale'],
-            noise_scale=self.__config['tts_config']['noise_scale'],
-            noise_w_scale=self.__config['tts_config']['noise_w_scale'],
-            volume=self.__config['tts_config']['volume']
+            length_scale=self.__config['length_scale'],
+            noise_scale=self.__config['noise_scale'],
+            noise_w_scale=self.__config['noise_w_scale'],
+            volume=self.__config['volume']
         )
         self.__stream = sd.OutputStream(
             samplerate=self.__voice.config.sample_rate,
             channels=1,
             dtype="int16",
             latency="high",
-            blocksize=self.__config['tts_config']['blocksize'],
+            blocksize=self.__config['blocksize'],
             callback=self.callback
         )
-        self.__audio_queue = Queue(maxsize=self.__config['tts_config']['buffersize'])
+        self.__audio_queue = Queue(maxsize=self.__config['buffersize'])
         self.__text_queue = Queue()
         self.__leftover = np.empty((0, 1), dtype=np.int16)
         self.__audio_thread = threading.Thread(target=self.__worker, daemon=True)
