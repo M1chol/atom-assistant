@@ -1,0 +1,22 @@
+[
+  {
+    "name": "get_datetime",
+    "description": "wywołaj funkcje get_datetime jeżeli potrzebujesz daty lub godziny",
+    "parameters": null
+  },
+  {
+    "name": "get_weekday",
+    "description": "wywołaj najpierw get_datetime a następnie get_weekday aby dostać dzień tygodnia dla daty w formacie %Y-%m-%d",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "date"
+      ]
+    }
+  }
+]
