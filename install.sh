@@ -1,3 +1,9 @@
+# 1. Check dependencies
+# 2. Create and activate venv
+# 3. Download python requirements
+# 4. Ensure download dir for models
+# 5. Download models specified in config.json
+
 echo "Checking dependencies..."
 if ! command -v ollama > /dev/null 2>&1; then
     echo "Failed, Please check that Ollama is installed. https://ollama.com/download"
