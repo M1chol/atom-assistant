@@ -53,4 +53,7 @@ python main.py
 
 In `config.json`, you can change the reading speed. If your LLM is not fast enough and is blocking speech generation, you can **increase** the `tts_config/length_scale` to slow down the reading speed.
 
-`noise_scale` and `noise_w_scale` control audio and speaking variation. You can also change the `volume` of the output speech.
+`noise_scale` and `noise_w_scale` control respectivly **audio** and **speaking** variation. You can also change the `volume` of the output speech.
+
+## Singular use examples
+I have also included example files for educational puposes for the used `ollama`, `piper` and `vosk` libraries. They all in some way expand on simple examples provided by the library contributors.
