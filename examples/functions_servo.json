@@ -1,0 +1,22 @@
+[
+  {
+    "name": "get_angle",
+    "description": "Wywołaj tą funkcje aby dowiedzieć się na jaki kąt ustawione jest serwo",
+    "parameters": null
+  },
+  {
+    "name": "set_angle",
+    "description": "Wywołaj tą funkcje aby ustwić określony kąt serwa",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "angle": {
+          "type": "int"
+        }
+      },
+      "required": [
+        "angle"
+      ]
+    }
+  }
+]
