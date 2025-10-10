@@ -273,13 +273,13 @@ void wifiInit(){
 }
 
 
-void OnDataSent(const wifi_tx_info_t *info, esp_now_send_status_t status) {
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.print("\r\nLast Packet Send Status:\t");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
 
 
-void OnDataRecv(const esp_now_recv_info_t* info, const uint8_t *incomingData, int len) {
+void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int len) {
   if(DEV_ROLE == 2){
     memcpy(&myData, incomingData, sizeof(myData));
     myData.Spd_send = abs(myData.Spd_send);
