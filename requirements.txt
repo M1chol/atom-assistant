@@ -2,3 +2,4 @@ piper-tts
 sounddevice
 ollama
 vosk
+pyserial
