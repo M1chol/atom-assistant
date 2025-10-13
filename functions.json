@@ -1,21 +1,21 @@
 [
   {
-    "name": "get_datetime",
-    "description": "wywołaj funkcje get_datetime jeżeli potrzebujesz daty lub godziny",
+    "name": "open_serial",
+    "description": "Wywołaj tą funkcje aby połączyć się z serwem",
     "parameters": null
   },
   {
-    "name": "get_weekday",
-    "description": "wywołaj najpierw get_datetime a następnie get_weekday aby dostać dzień tygodnia dla daty w formacie %Y-%m-%d",
+    "name": "set_angle",
+    "description": "Wywołaj tą funkcje aby ustwić określony kąt serwa",
     "parameters": {
       "type": "object",
       "properties": {
-        "date": {
-          "type": "string"
+        "angle": {
+          "type": "int"
         }
       },
       "required": [
-        "date"
+        "angle"
       ]
     }
   }

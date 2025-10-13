@@ -5,30 +5,20 @@ import model_tools
 from ollama import chat, list, show
 import json
 from time import sleep
-from datetime import datetime
+import servoWrapper
 
 
 # Note: functions should return {"status": <value>, "arg": <value>}
 class my_tools:
     @staticmethod
-    def get_datetime():
-        try:
-            now = datetime.now()
-            formatted_datetime = now.strftime("%Y-%m-%d %H:%M:%S")
-            return {"status": "success", "datetime": formatted_datetime}
-        except Exception as e:
-            return {"status": "error", "datetime": str(e)}
+    def open_serial():
+        status, message = servoWrapper.open_serial()
+        return {"status": "success" if status else "fail", "message": message}
 
     @staticmethod
-    def get_weekday(date: str):
-        print("get_weekday called with parameter", date)
-        format = "%Y-%m-%d"
-        try:
-            date_object = datetime.strptime(date, format)
-            weekday_name = date_object.strftime("%A")
-            return {"status": "success", "weekday": weekday_name}
-        except ValueError as e:
-            return {"status": "fail", "error": e}
+    def set_angle(angle: int):
+        status, message = servoWrapper.set_angle(angle)
+        return {"status": "success" if status else "fail", "message": message}
 
 
 try:
