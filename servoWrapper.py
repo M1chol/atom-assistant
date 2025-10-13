@@ -6,7 +6,6 @@ SERVO_PID = 60000
 
 serialServo = None
 
-
 def open_serial():
     global serialServo
     ports = list_ports.comports()
