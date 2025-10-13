@@ -50,12 +50,18 @@ def parse_func_call(text: str, tools: str, tools_obj: object) -> Dict[str, str] 
             tool = getattr(tools_obj, function["name"])
             if not callable(tool):
                 continue
-            parameters = parsed["parameters"]
+            parameters = parsed.get("parameters", None)
             if parameters:
-                result = tool(**parameters)
+                try:
+                    result = tool(**parameters)
+                except Exception as e:
+                    return {"error": str(e)}
                 return result  # type: ignore
             else:
-                result = tool()
+                try:
+                    result = tool()
+                except Exception as e:
+                    return {"error": str(e)}
                 return result  # type: ignore
         except:
             continue
