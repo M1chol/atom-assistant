@@ -4,7 +4,7 @@ import json
 from typing import Dict
 from pprint import pprint
 import serial
-
+from serial.tools import list_ports
 
 # Checking if ollama is installed
 try:
@@ -19,7 +19,7 @@ model = "gemma3:4b"
 system_prompt = 'Jesteś asystentem "Atom", odpowiadasz na pytania krótko, zwięźle oraz w języku polskim. Nie używaj znaków specjalnych\n'
 
 tools = "NO TOOLS AVAILABLE"
-with open("functions.json") as f:
+with open("functions_servo.json") as f:
     tools = f.read()
 
 tool_call = (
@@ -31,8 +31,7 @@ tool_call = (
 1.  **Prioritize Function Use:** If a user request can be best fulfilled or enhanced by using a function, you should invoke it.
 2.  **Avoid Redundant Calls:** Do not call a function if its result is already present in a previous message.
 3.  **Respond to Capability Inquiries:** If explicitly asked about your capabilities, list the functions you have access to.
-4.  **Formatting:** When invoking a function, use the following JSON format: {"name": "function_name", "parameters": {"arg1": "value1", "arg2": "value2"}}
-5.  **Be Truthfull:** When invoked function fail, clearly state that, or try to re-run the function
+4.  **Formatting:** When invoking a function, use the following message format: {"name": "function_name", "parameters": {"arg1": "value1", "arg2": "value2"}}
 """
 )
 
@@ -44,7 +43,7 @@ serialServo = None
 
 def openSerial() -> bool:
     global serialServo
-    ports = serial.tools.list_ports.comports()
+    ports = list_ports.comports()
     for _port in ports:
         if _port.vid == SERVO_VID and _port.pid == SERVO_PID:
             serialServo = _port.device
@@ -135,7 +134,7 @@ def get_json(text: str):
 
 def parse_func_call(text: str) -> Dict[str, str] | None:
     try:
-        get_json(text)
+        text = get_json(text)
         parsed = json.loads(text)
     except:
         return None
@@ -161,7 +160,7 @@ def parse_func_call(text: str) -> Dict[str, str] | None:
     return None
 
 
-print(f"Starting streamed chat with tools using {model}, Ctrl+C to exit")
+print(f"Starting streamed chat with tools (servo) using {model}, Ctrl+C to exit")
 try:
     while True:
         user_input = input("user: ")
