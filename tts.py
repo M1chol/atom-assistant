@@ -1,4 +1,5 @@
 import sounddevice as sd
+import re
 from sounddevice import CallbackFlags
 from piper.voice import PiperVoice
 from piper.config import SynthesisConfig
@@ -8,29 +9,32 @@ import json
 import threading
 from time import sleep
 
+
 class ttsWrapper:
     def __init__(self) -> None:
         with open("config.json") as f:
-            self.__config = json.load(f)['tts_config']
+            self.__config = json.load(f)["tts_config"]
         if not self.__config:
             raise FileNotFoundError("config file not found")
-        self.__model_path = self.__config['model_dir'] + '/' + self.__config['model'] + ".onnx"
+        self.__model_path = (
+            self.__config["model_dir"] + "/" + self.__config["model"] + ".onnx"
+        )
         self.__voice = PiperVoice.load(self.__model_path)
         self.__syn_config = SynthesisConfig(
-            length_scale=self.__config['length_scale'],
-            noise_scale=self.__config['noise_scale'],
-            noise_w_scale=self.__config['noise_w_scale'],
-            volume=self.__config['volume']
+            length_scale=self.__config["length_scale"],
+            noise_scale=self.__config["noise_scale"],
+            noise_w_scale=self.__config["noise_w_scale"],
+            volume=self.__config["volume"],
         )
         self.__stream = sd.OutputStream(
             samplerate=self.__voice.config.sample_rate,
             channels=1,
             dtype="int16",
             latency="high",
-            blocksize=self.__config['blocksize'],
-            callback=self.callback
+            blocksize=self.__config["blocksize"],
+            callback=self.callback,
         )
-        self.__audio_queue = Queue(maxsize=self.__config['buffersize'])
+        self.__audio_queue = Queue(maxsize=self.__config["buffersize"])
         self.__text_queue = Queue()
         self.__leftover = np.empty((0, 1), dtype=np.int16)
         self.__audio_thread = threading.Thread(target=self.__worker, daemon=True)
@@ -38,7 +42,7 @@ class ttsWrapper:
 
         self.__stream.start()
         self.__audio_thread.start()
-    
+
     def __del__(self):
         self.__audio_thread_stop_event.set()
         self.__stream.stop()
@@ -46,7 +50,7 @@ class ttsWrapper:
 
     def callback(self, outdata, frames, time, status):
         wrote = 0
-        
+
         def copy_from(src):
             nonlocal wrote
             if src.size == 0:
@@ -55,7 +59,7 @@ class ttsWrapper:
             outdata[wrote : wrote + take] = src[:take]
             wrote += take
             return take
-        
+
         # First add leftover bytes
         if len(self.__leftover) > 0 and wrote < frames:
             taken = copy_from(self.__leftover)
@@ -63,7 +67,7 @@ class ttsWrapper:
                 self.__leftover = self.__leftover[taken:]
             else:
                 self.__leftover = self.__leftover[0:0]
-            
+
         while wrote < frames:
             try:
                 data = self.__audio_queue.get_nowait()
@@ -85,14 +89,18 @@ class ttsWrapper:
         for audio_chunk in self.__voice.synthesize(text, syn_config=self.__syn_config):
             audio_bytes = audio_chunk.audio_int16_array
             self.__audio_queue.put(audio_bytes)
-    
+
     def __worker(self):
         print("[TTS] Worker started")
         sentence = ""
         while not self.__audio_thread_stop_event.is_set():
             token = self.__text_queue.get()
-            if token is None or token in ['.', '!', '?', ','] or len(sentence.split()) > 5:
-                if token: 
+            if (
+                token is None
+                or token in [".", "!", "?", ","]
+                or len(sentence.split()) > 5
+            ):
+                if token:
                     sentence += token
                 if sentence:
                     self.__push_text(sentence)
@@ -100,5 +108,10 @@ class ttsWrapper:
             else:
                 sentence += token
 
-    def speak(self, text:str | None):
-        self.__text_queue.put(text)
+    def speak(self, text: str | None):
+        res = None
+        if text:
+            pattern = r'[^a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ.,!? ]+'
+            res = re.sub(pattern, '', text)
+        self.__text_queue.put(res)
+
