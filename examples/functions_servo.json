@@ -1,7 +1,7 @@
 [
   {
     "name": "open_serial",
-    "description": "Wywołaj tą funkcje aby zacząć komunikację z serwem",
+    "description": "Wywołaj tą funkcje aby połączyć się z serwem",
     "parameters": null
   },
   {

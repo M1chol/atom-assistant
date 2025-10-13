@@ -7,7 +7,7 @@ SERVO_PID = 60000
 serialServo = None
 
 
-def openSerial():
+def open_serial():
     global serialServo
     ports = list_ports.comports()
     for _port in ports:
@@ -26,10 +26,10 @@ def openSerial():
 
 def set_angle(angle: int):
     if not serialServo:
-        return False, "Servo is not connected"
+        return False, "error: servo is not connected"
     try:
         command = f"CMD{angle};{180 - angle}"
         serialServo.write(command.encode() + b"\n")
-        return True, f"Set angle {angle}"
+        return True, f"success: current angle: {angle}"
     except ValueError as e:
         return False, e

@@ -30,8 +30,9 @@ tool_call = (
 
 1.  **Prioritize Function Use:** If a user request can be best fulfilled or enhanced by using a function, you should invoke it.
 2.  **Avoid Redundant Calls:** Do not call a function if its result is already present in a previous message.
-3.  **Respond to Capability Inquiries:** If explicitly asked about your capabilities, list the functions you have access to.
+3.  **Respond to Capability Inquiries:** If explicitly asked about your capabilities, list the functions you have access to without calling them.
 4.  **Formatting:** When invoking a function, use the following message format: {"name": "function_name", "parameters": {"arg1": "value1", "arg2": "value2"}}
+5. If function fails clearly state that.
 """
 )
 
@@ -93,12 +94,18 @@ def parse_func_call(text: str) -> Dict[str, str] | None:
             tool = getattr(my_tools_obj, function["name"])
             if not callable(tool):
                 continue
-            parameters = parsed["parameters"]
+            parameters = parsed.get("parameters", None)
             if parameters:
-                result = tool(**parameters)
+                try:
+                    result = tool(**parameters)
+                except Exception as e:
+                    return e
                 return result  # type: ignore
             else:
-                result = tool()
+                try:
+                    result = tool()
+                except Exception as e:
+                    return e
                 return result  # type: ignore
         except:
             continue
